@@ -12,11 +12,11 @@
     "strict": true,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
-    "target": "es2017",
+    "target": "es2021",
     "module": "commonjs",
     "declaration": true,
     "sourceMap": true,
-    "baseUrl": "./",
+    "outDir": "dist",
     "preserveWatchOutput": true,
     "incremental": true,
     "useUnknownInCatchVariables": true
