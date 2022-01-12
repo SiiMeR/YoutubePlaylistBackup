@@ -21,6 +21,7 @@ To be able to find replacement videos for my playlists, I created this small too
 ````
 GOOGLE_API_KEY=INSERT_YOUR_API_KEY_HERE
 YOUTUBE_PLAYLIST_URL=INSERT_YOUR_PLAYLIST_URL_HERE
+DATABASE_FILE_RELATIVE_PATH=db.json
 ````
 1. Run the `yarn start` command to start the program.
 
