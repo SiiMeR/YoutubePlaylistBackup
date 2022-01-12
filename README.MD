@@ -16,6 +16,7 @@ To be able to find replacement videos for my playlists, I created this small too
 
 ## Backend
 
+1. Obtain a YouTube Data API v3 key from `https://console.cloud.google.com/apis/credentials`.
 1. Create a file named `.env` in the folder `src/backend`.
 1. Add the following configuration into the newly created file, filling in your details (or pass these variables in directly from the environment):
 ````
