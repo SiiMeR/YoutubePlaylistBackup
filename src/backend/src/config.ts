@@ -21,5 +21,7 @@ export const getConfig = (): Config => {
 }
 
 const loadConfig = () => {
-    dotenv.config();
+    dotenv.config({
+        path: '.env.local'
+    });
 }

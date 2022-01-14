@@ -17,13 +17,8 @@ To be able to find replacement videos for my playlists, I created this small too
 ## Backend
 
 1. Obtain a YouTube Data API v3 key from `https://console.cloud.google.com/apis/credentials`.
-1. Create a file named `.env` in the folder `src/backend`.
-1. Add the following configuration into the newly created file, filling in your details (or pass these variables in directly from the environment):
-````
-GOOGLE_API_KEY=INSERT_YOUR_API_KEY_HERE
-YOUTUBE_PLAYLIST_URL=INSERT_YOUR_PLAYLIST_URL_HERE
-DATABASE_FILE_RELATIVE_PATH=db.json
-````
+1. Make a copy of the file `.env.template` in the folder `src/backend` and rename it to `.env.local`.
+1. Fill in your details in the newly created `.env.local` file (or pass these variables in directly from the environment)
 1. Run the `npm run start` or `yarn start` command to start the program.
 
 ## Frontend
