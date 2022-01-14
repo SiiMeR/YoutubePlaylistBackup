@@ -1,50 +1,38 @@
-import Youtube, { YoutubePlaylistItem, YoutubePlaylistItemsSearch } from 'youtube.ts';
-import { getConfig } from './config';
-import { JsonDatabase, PlaylistItem } from './database';
-import { replaceLine } from './helpers';
-
+import { getConfig } from "./config";
+import express from 'express';
+import { JsonDatabase, PlaylistItem } from "./database";
 
 const main = async () => {
   const config = getConfig();
+  const port = config.Port;
 
-  const db = new JsonDatabase<PlaylistItem>(config.DatabaseFileRelativePath)
+  const app = express();
+  const db = new JsonDatabase<PlaylistItem>(config.DatabaseFileRelativePath);
 
-  const youtube = new Youtube(process.env.GOOGLE_API_KEY)
-  const playlist = await youtube.playlists.get(config.PlayListURL)
+  app.use((req, res, next) => {
+    console.debug(`${req.method} ${req.url}`);
+    next();
+  })
 
-  const playlistVideos = await loadVideos(youtube, config.PlayListURL, playlist.contentDetails.itemCount);
-  console.log(`Found ${playlistVideos.length} videos in playlist '${playlist.snippet.title}'.`)
+  app.get('/', (req, res) => {
+    res.send('Try /playlists or /playlist/{id}')
+  });
 
-  const videoItems = playlistVideos.map(video => { return { id: video.id, title: video.snippet.title, lastUpdated: new Date() }; });
+  app.get('/playlist/:id', (req, res) => {
+    // TODO: Use req.params.id to get specific playlists.
+    res.setHeader('Content-Type', 'application/json');
+    res.send(JSON.stringify(db.getAll()));
+  });
 
-  let updatedItems = 0;
-  for (const item of videoItems) {
-    const result = db.insert(item);
-    if (result) {
-      updatedItems += 1;
-    }
-  }
+  app.post('/playlist/:id/update', (req, res) => {
+    // TODO: Use req.params.id to update specific playlists.
+    res.setHeader('Content-Type', 'application/json');
+    res.send(JSON.stringify("Not implemented"));
+  })
 
-  console.log(`Successfully added ${updatedItems} songs into the database.`)
-}
-
-const loadVideos = async (youtube: Youtube, url: string, totalVideoCount: number): Promise<YoutubePlaylistItem[]> => {
-  const videos: YoutubePlaylistItem[] = [];
-
-  let nextPageToken: string | undefined = undefined;
-  do {
-    replaceLine(`Querying videos from playlist. Progress ${videos.length}/${totalVideoCount} videos...`);
-
-    let playlistItems: YoutubePlaylistItemsSearch = await youtube.playlists.items(url, { pageToken: nextPageToken ?? undefined });
-    videos.push(...playlistItems.items);
-
-    nextPageToken = playlistItems.nextPageToken;
-  }
-  while (videos.length < totalVideoCount)
-
-  console.log("\n") // Needed because otherwise the next console.log call will overwrite the last progress update
-
-  return videos;
+  app.listen(port, () =>
+    console.log(`Backend listening at http://localhost:${port}`),
+  );
 }
 
 main().catch(error => console.error(error));
