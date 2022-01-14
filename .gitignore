@@ -156,3 +156,20 @@ dist
 # Ignore all local history of files
 .history
 .ionide
+
+
+# .env files
+!.env
+**/.env.local
+**/.env.development.local
+**/.env.test.local
+**/.env.production.local
+
+# Yarn files
+**/.pnp.*
+**/.yarn/*
+**/!.yarn/patches
+**/!.yarn/plugins
+**/!.yarn/releases
+**/!.yarn/sdks
+**/!.yarn/versions
